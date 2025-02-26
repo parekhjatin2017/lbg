@@ -1,5 +1,6 @@
 package com.sample.topmovies.di
 
+import com.sample.topmovies.Constants
 import com.sample.topmovies.repository.network.MovieService
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 object AppModule {
 
     @Provides
-    fun providesUrl() = "https://api.themoviedb.org/3/"
+    fun providesUrl() = Constants.BASE_URL
 
     @Provides
     @Singleton

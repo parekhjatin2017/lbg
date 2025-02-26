@@ -11,10 +11,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -46,8 +44,6 @@ class TMDBActivity : ComponentActivity() {
         tmdbViewModel.getPopularMovies()
         setContent {
             JetpackcomposeTheme {
-                TransparentSystemBars()
-
                 Box(
                     Modifier
                         .fillMaxSize()
@@ -57,7 +53,7 @@ class TMDBActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController, startDestination = "home") {
                         composable("home") {
-                            setHomeScreen(tmdbViewModel, applicationContext, {
+                            SetHomeScreen(tmdbViewModel, applicationContext, {
                                 tmdbViewModel.getMovieDetail(it.id.toString())
                             }) {
                                 tmdbViewModel.getPopularMovies()
@@ -70,17 +66,7 @@ class TMDBActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun TransparentSystemBars() {
-        val statusBarColor = MaterialTheme.colors.background
-        SideEffect {
-            window.statusBarColor = statusBarColor.toArgb()
-            window.navigationBarColor = statusBarColor.toArgb()
-        }
-    }
-
-
-    @Composable
-    fun setHomeScreen(
+    fun SetHomeScreen(
         viewModel: TMDBViewModel,
         context: Context,
         clickAction: (Movie) -> Unit,
