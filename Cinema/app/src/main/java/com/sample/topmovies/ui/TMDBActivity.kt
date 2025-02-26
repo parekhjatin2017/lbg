@@ -36,7 +36,7 @@ class TMDBActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
-            setKeepVisibleCondition{
+            setKeepOnScreenCondition{
                 runBlocking {
                     delay(Constants.SPLASH_DURATION_MS)
                 }
