@@ -17,11 +17,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sample.topmovies.Constants
-import com.sample.topmovies.model.Movie
-import com.sample.topmovies.ui.theme.CinemaTheme
-import com.sample.topmovies.viewModel.ApiStatus
-import com.sample.topmovies.viewModel.TMDBViewModel
+import com.lbg.ui.CinemaTheme
+import com.lbg.ui.compose.MovieList
+import com.lbg.ui.compose.OpenDetailScreen
+import com.lbg.viewmodel.TMDBViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -36,7 +35,7 @@ class TMDBActivity : ComponentActivity() {
         installSplashScreen().apply {
             setKeepOnScreenCondition{
                 runBlocking {
-                    delay(Constants.SPLASH_DURATION_MS)
+                    delay(SPLASH_DURATION_MS)
                 }
                 false
             }
@@ -69,28 +68,32 @@ class TMDBActivity : ComponentActivity() {
     fun SetHomeScreen(
         viewModel: TMDBViewModel,
         context: Context,
-        clickAction: (Movie) -> Unit,
+        clickAction: (com.lbg.model.Movie) -> Unit,
         back: () -> Unit
     ) {
 
         when (val state = viewModel.movieStateFlow.collectAsState().value) {
-            is ApiStatus.Loading -> {
+            is com.lbg.model.ApiStatus.Loading -> {
                 Toast.makeText(context, "Loading data...", Toast.LENGTH_SHORT).show()
             }
-            is ApiStatus.Failure -> {
+            is com.lbg.model.ApiStatus.Failure -> {
                 Toast.makeText(context, state.msg.message, Toast.LENGTH_SHORT).show()
                 /*val activity = (LocalContext.current as? Activity)
                 activity?.finish()*/
             }
-            is ApiStatus.MovieListSuccess -> {
+            is com.lbg.model.ApiStatus.MovieListSuccess -> {
                 MovieList(state.data.results, clickAction)
             }
-            is ApiStatus.MovieDetailSuccess -> {
+            is com.lbg.model.ApiStatus.MovieDetailSuccess -> {
                 //Toast.makeText(context, state.data.toString(), Toast.LENGTH_SHORT).show()
                 OpenDetailScreen(state.data, back)
             }
-            is ApiStatus.Idle -> {}
+            is com.lbg.model.ApiStatus.Idle -> {}
         }
 
+    }
+
+    companion object {
+        private const val SPLASH_DURATION_MS = 3000L
     }
 }

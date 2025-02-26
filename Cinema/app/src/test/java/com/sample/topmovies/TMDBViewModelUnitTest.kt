@@ -1,15 +1,12 @@
 package com.sample.topmovies
 
 import app.cash.turbine.test
-import com.sample.topmovies.model.MovieDetail
-import com.sample.topmovies.model.MovieList
 import com.sample.topmovies.repository.MoviesRepository
 import com.sample.topmovies.repository.network.MovieService
 import com.sample.topmovies.repository.network.MovieServiceApi
-import com.sample.topmovies.usecases.GetMovieDetailUseCase
-import com.sample.topmovies.usecases.GetPopularMoviesUseCase
-import com.sample.topmovies.viewModel.ApiStatus
-import com.sample.topmovies.viewModel.TMDBViewModel
+import com.lbg.domain.usecases.GetMovieDetailUseCase
+import com.lbg.domain.usecases.GetPopularMoviesUseCase
+import com.lbg.viewmodel.TMDBViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
 import org.junit.After
@@ -53,7 +50,7 @@ class TMDBViewModelUnitTest {
     fun testMovieDetails() {
 
         runTest {
-            val detail = Mockito.mock(MovieDetail::class.java)
+            val detail = Mockito.mock(com.lbg.model.MovieDetail::class.java)
             Mockito.doReturn(detail)
                 .`when`(movieService)
                 .getMovieDetail(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())
@@ -61,9 +58,9 @@ class TMDBViewModelUnitTest {
 
             viewModel.movieStateFlow.test {
                 viewModel.getMovieDetail("9")
-                assertEquals(ApiStatus.Idle, awaitItem())
-                assertEquals(ApiStatus.Loading, awaitItem())
-                assertEquals(ApiStatus.MovieDetailSuccess(detail).javaClass, awaitItem().javaClass)
+                assertEquals(com.lbg.model.ApiStatus.Idle, awaitItem())
+                assertEquals(com.lbg.model.ApiStatus.Loading, awaitItem())
+                assertEquals(com.lbg.model.ApiStatus.MovieDetailSuccess(detail).javaClass, awaitItem().javaClass)
                 cancelAndIgnoreRemainingEvents()
 
                 Mockito.verify(movieService, Mockito.times(1))
@@ -76,7 +73,7 @@ class TMDBViewModelUnitTest {
     fun testMovieList() {
 
         runTest {
-            val list = Mockito.mock(MovieList::class.java)
+            val list = Mockito.mock(com.lbg.model.MovieList::class.java)
             Mockito.doReturn(list)
                 .`when`(movieService)
                 .getPopularMovies(ArgumentMatchers.anyString())
@@ -84,9 +81,9 @@ class TMDBViewModelUnitTest {
 
             viewModel.movieStateFlow.test {
                 viewModel.getPopularMovies()
-                assertEquals(ApiStatus.Idle, awaitItem())
-                assertEquals(ApiStatus.Loading, awaitItem())
-                assertEquals(ApiStatus.MovieListSuccess(list).javaClass, awaitItem().javaClass)
+                assertEquals(com.lbg.model.ApiStatus.Idle, awaitItem())
+                assertEquals(com.lbg.model.ApiStatus.Loading, awaitItem())
+                assertEquals(com.lbg.model.ApiStatus.MovieListSuccess(list).javaClass, awaitItem().javaClass)
                 cancelAndIgnoreRemainingEvents()
 
                 Mockito.verify(movieService, Mockito.times(1))
@@ -106,10 +103,10 @@ class TMDBViewModelUnitTest {
 
             viewModel.movieStateFlow.test {
                 viewModel.getMovieDetail("9")
-                assertEquals(ApiStatus.Idle, awaitItem())
-                assertEquals(ApiStatus.Loading, awaitItem())
+                assertEquals(com.lbg.model.ApiStatus.Idle, awaitItem())
+                assertEquals(com.lbg.model.ApiStatus.Loading, awaitItem())
                 assertEquals(
-                    ApiStatus.Failure(NullPointerException()).javaClass,
+                    com.lbg.model.ApiStatus.Failure(NullPointerException()).javaClass,
                     awaitItem().javaClass
                 )
                 cancelAndIgnoreRemainingEvents()
@@ -131,10 +128,10 @@ class TMDBViewModelUnitTest {
 
             viewModel.movieStateFlow.test {
                 viewModel.getPopularMovies()
-                assertEquals(ApiStatus.Idle, awaitItem())
-                assertEquals(ApiStatus.Loading, awaitItem())
+                assertEquals(com.lbg.model.ApiStatus.Idle, awaitItem())
+                assertEquals(com.lbg.model.ApiStatus.Loading, awaitItem())
                 assertEquals(
-                    ApiStatus.Failure(NullPointerException()).javaClass,
+                    com.lbg.model.ApiStatus.Failure(NullPointerException()).javaClass,
                     awaitItem().javaClass
                 )
                 cancelAndIgnoreRemainingEvents()
