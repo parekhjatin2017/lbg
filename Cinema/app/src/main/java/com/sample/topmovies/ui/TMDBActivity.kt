@@ -15,14 +15,18 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sample.topmovies.Constants
 import com.sample.topmovies.model.Movie
 import com.sample.topmovies.ui.theme.JetpackcomposeTheme
 import com.sample.topmovies.viewModel.ApiStatus
 import com.sample.topmovies.viewModel.TMDBViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class TMDBActivity : ComponentActivity() {
@@ -31,7 +35,14 @@ class TMDBActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        installSplashScreen().apply {
+            setKeepVisibleCondition{
+                runBlocking {
+                    delay(Constants.SPLASH_DURATION_MS)
+                }
+                false
+            }
+        }
         tmdbViewModel.getPopularMovies()
         setContent {
             JetpackcomposeTheme {

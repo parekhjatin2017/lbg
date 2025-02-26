@@ -67,7 +67,6 @@ fun MovieDetail(movieDetail: MovieDetail) {
     }
 }
 
-
 @Composable
 fun AppBar(title: String, image: ImageVector, onClick: () -> Unit) {
     TopAppBar(

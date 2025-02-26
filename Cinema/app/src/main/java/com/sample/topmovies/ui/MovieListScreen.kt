@@ -15,11 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sample.topmovies.Constants
+import com.sample.topmovies.R
 import com.sample.topmovies.model.Movie
 import com.sample.topmovies.ui.theme.lightGreen
 
@@ -28,7 +30,7 @@ fun MovieList(movieList: List<Movie>, itemSelection: (Movie) -> Unit) {
 
     Scaffold(topBar = {
         AppBar(
-            title = "Cinema",
+            title = LocalContext.current.getString(R.string.app_name),
             image = Icons.Filled.Home
         ) {}
     }) {
