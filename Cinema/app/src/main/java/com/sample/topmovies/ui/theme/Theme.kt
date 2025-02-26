@@ -6,29 +6,15 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
-private val DarkColorPalette = darkColors(
-    primary = Teal200,
-    primaryVariant = Purple700,
-    secondary = Purple200,
-    surface = lightGray,
-)
-
-private val LightColorPalette = lightColors(
-    primary = Teal200,
-    primaryVariant = Purple700,
-    secondary = Purple500,
-    surface = lightGray,
-)
-
 @Composable
-fun JetpackcomposeTheme(
+fun CinemaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit
 ) {
     val colors = if (darkTheme) {
-        DarkColorPalette
+        darkColors()
     } else {
-        LightColorPalette
+        lightColors()
     }
 
     MaterialTheme(

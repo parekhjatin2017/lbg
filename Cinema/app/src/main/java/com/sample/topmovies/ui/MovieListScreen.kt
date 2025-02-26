@@ -2,11 +2,23 @@ package com.sample.topmovies.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
@@ -23,7 +35,6 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.sample.topmovies.Constants
 import com.sample.topmovies.R
 import com.sample.topmovies.model.Movie
-import com.sample.topmovies.ui.theme.lightGreen
 
 @Composable
 fun MovieList(movieList: List<Movie>, itemSelection: (Movie) -> Unit) {
@@ -74,7 +85,7 @@ fun DP(movie: Movie, profilePicSize: Dp) {
         border = BorderStroke(
             width = 1.dp,
             color = if (movie.adult)
-                MaterialTheme.colors.lightGreen
+                Color.Green
             else Color.Red
         ),
         modifier = Modifier.padding(16.dp),

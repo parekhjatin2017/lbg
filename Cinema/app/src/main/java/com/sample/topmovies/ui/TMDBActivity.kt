@@ -19,7 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sample.topmovies.Constants
 import com.sample.topmovies.model.Movie
-import com.sample.topmovies.ui.theme.JetpackcomposeTheme
+import com.sample.topmovies.ui.theme.CinemaTheme
 import com.sample.topmovies.viewModel.ApiStatus
 import com.sample.topmovies.viewModel.TMDBViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +43,7 @@ class TMDBActivity : ComponentActivity() {
         }
         tmdbViewModel.getPopularMovies()
         setContent {
-            JetpackcomposeTheme {
+            CinemaTheme {
                 Box(
                     Modifier
                         .fillMaxSize()
