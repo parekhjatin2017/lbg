@@ -46,7 +46,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.15.0'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation project(':presentation')
     implementation project(':domain')
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
@@ -55,18 +55,18 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
-    implementation 'androidx.activity:activity-ktx:1.10.0'
+    implementation 'androidx.activity:activity-ktx:1.10.1'
 
 
     implementation "androidx.compose.ui:ui:$composeVersion"
     implementation "androidx.compose.material:material:$composeVersion"
     implementation "androidx.compose.ui:ui-tooling:$composeVersion"
     implementation "androidx.compose.material:material-icons-extended:$composeVersion"
-    implementation 'androidx.activity:activity-compose:1.10.0'
+    implementation 'androidx.activity:activity-compose:1.10.1'
     implementation 'androidx.core:core-splashscreen:1.0.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$composeVersion"
 
-    def nav_version = '2.8.7'
+    def nav_version = '2.8.8'
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
 }
