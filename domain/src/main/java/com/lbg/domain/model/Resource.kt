@@ -1,4 +1,4 @@
-package com.lbg.data.model
+package com.lbg.domain.model
 
 sealed class Resource<T>{
     class Error<T>(val message:String): Resource<T>()

@@ -1,9 +1,8 @@
 package com.lbg.domain.usecases
 
-import com.lbg.data.model.Resource
-import com.lbg.data.repository.IMoviesRepository
 import com.lbg.domain.model.ApiStatus
-import com.lbg.domain.model.FilmDetails
+import com.lbg.domain.model.Resource
+import com.lbg.domain.repository.IMoviesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,7 +11,7 @@ import javax.inject.Inject
 
 class GetMovieDetailUseCase @Inject
 constructor(private val moviesRepository: IMoviesRepository) {
-    fun getMovieDetail(movieId: String): Flow<ApiStatus> = flow {
+    operator fun invoke(movieId: String): Flow<ApiStatus> = flow {
         emit(ApiStatus.Loading)
         when (val response = moviesRepository.getMovieDetail(Constants.API_KEY, movieId)) {
             is Resource.Error -> {
@@ -21,11 +20,7 @@ constructor(private val moviesRepository: IMoviesRepository) {
 
             is Resource.Success -> {
                 response.data?.let {
-                    emit(
-                        ApiStatus.MovieDetailSuccess(
-                            FilmDetails(it.title, it.overview, it.poster_path)
-                        )
-                    )
+                    emit(ApiStatus.MovieDetailSuccess(it))
                 } ?: run {
                     emit(ApiStatus.Error("Server error"))
                 }

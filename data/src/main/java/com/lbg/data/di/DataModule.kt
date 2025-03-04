@@ -1,10 +1,10 @@
 package com.lbg.data.di
 
 import com.lbg.data.Constants
-import com.lbg.data.repository.IMoviesRepository
 import com.lbg.data.repository.MoviesRepositoryImpl
 import com.lbg.data.repository.network.MovieService
 import com.lbg.data.repository.network.MovieServiceApi
+import com.lbg.domain.repository.IMoviesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,6 +33,4 @@ object DataModule {
     @Singleton
     fun providesMoviesRepository(movieServiceApi: MovieServiceApi): IMoviesRepository =
         MoviesRepositoryImpl(movieServiceApi)
-
-
 }

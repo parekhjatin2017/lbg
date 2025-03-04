@@ -25,14 +25,14 @@ constructor(
 
     fun getPopularMovies() = viewModelScope.launch {
         _movieStateFlow.value = ApiStatus.Loading
-        getPopularMoviesUseCase.getPopularMovies().collect { data ->
+        getPopularMoviesUseCase().collect { data ->
             _movieStateFlow.value = data
         }
     }
 
     fun getMovieDetail(movieId: String) = viewModelScope.launch {
         _movieStateFlow.value = ApiStatus.Loading
-        getMovieDetailUseCase.getMovieDetail(movieId).collect { data ->
+        getMovieDetailUseCase(movieId).collect { data ->
             _movieStateFlow.value = data
         }
     }
