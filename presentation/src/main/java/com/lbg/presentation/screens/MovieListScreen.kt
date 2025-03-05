@@ -23,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,39 +31,54 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.lbg.domain.model.ApiStatus
 import com.lbg.domain.model.Film
 import com.lbg.domain.usecases.Constants
 import com.lbg.presentation.R
+import com.lbg.presentation.viewmodel.MovieListViewModel
 
 @Composable
-fun MovieList(filmList: List<Film>, itemSelection: (Film) -> Unit) {
+fun MovieList(
+    viewModel: MovieListViewModel = hiltViewModel(),
+    selectedMovie: (String) -> Unit
+) {
 
-    Scaffold(topBar = {
-        AppBar(
-            title = LocalContext.current.getString(R.string.app_name),
-            image = Icons.Filled.Home
-        ) {}
-    }) {
-        Surface(modifier = Modifier.padding(it)) {
-            LazyColumn {
-                items(filmList) { film ->
-                    CardView(film, itemSelection)
+    when (val state = viewModel.movieListStateFlow.collectAsState().value) {
+        is ApiStatus.Success -> {
+            Scaffold(topBar = {
+                AppBar(
+                    title = LocalContext.current.getString(R.string.app_name),
+                    image = Icons.Filled.Home
+                ) {}
+            }) {
+                Surface(modifier = Modifier.padding(it)) {
+                    LazyColumn {
+                        items(state.value) { film ->
+                            CardView(film, selectedMovie)
+                        }
+                    }
                 }
             }
         }
+
+        is ApiStatus.Error -> {}
+        is ApiStatus.Loading -> {}
+        is ApiStatus.NetworkError -> {}
     }
+
 }
 
 @Composable
-fun CardView(film: Film, itemSelection: (Film) -> Unit) {
+fun CardView(film: Film, itemSelection: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(top = 15.dp, start = 15.dp, end = 15.dp)
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.Top)
-            .clickable { itemSelection(film) },
+            .clickable { itemSelection(film.id) },
         elevation = 8.dp,
         backgroundColor = Color.White,
     ) {

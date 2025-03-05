@@ -16,22 +16,44 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.lbg.domain.model.ApiStatus
 import com.lbg.domain.model.FilmDetails
 import com.lbg.domain.usecases.Constants
+import com.lbg.presentation.viewmodel.MovieDetailViewModel
 
 @Composable
-fun OpenDetailScreen(item: FilmDetails, back: () -> Unit) {
-    Surface(modifier = Modifier.fillMaxSize()) {
-        MovieDetail(item, back)
+fun OpenDetailScreen(
+    viewmodel: MovieDetailViewModel = hiltViewModel(),
+    movieId: String,
+    back: () -> Unit
+) {
+    LaunchedEffect(Unit) {
+        viewmodel.getMovieDetail(movieId)
     }
+
+    when (val state = viewmodel.movieDetailStateFlow.collectAsState().value) {
+        is ApiStatus.Success -> {
+            Surface(modifier = Modifier.fillMaxSize()) {
+                MovieDetail(state.value, back)
+            }
+        }
+
+        is ApiStatus.Error -> {}
+        is ApiStatus.Loading -> {}
+        is ApiStatus.NetworkError -> {}
+    }
+
 }
 
 @Composable

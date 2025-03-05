@@ -2,7 +2,6 @@ package com.lbg.data
 
 import com.lbg.data.model.MovieDetail
 import com.lbg.data.model.MovieList
-import com.lbg.domain.model.Resource
 import com.lbg.data.repository.MoviesRepositoryImpl
 import com.lbg.data.repository.network.MovieService
 import com.lbg.data.repository.network.MovieServiceApi

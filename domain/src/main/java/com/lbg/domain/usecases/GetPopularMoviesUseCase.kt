@@ -1,7 +1,7 @@
 package com.lbg.domain.usecases
 
 import com.lbg.domain.model.ApiStatus
-import com.lbg.domain.model.Resource
+import com.lbg.domain.model.Film
 import com.lbg.domain.repository.IMoviesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -11,22 +11,8 @@ import javax.inject.Inject
 
 class GetPopularMoviesUseCase @Inject
 constructor(private val moviesRepository: IMoviesRepository) {
-
-    operator fun invoke(): Flow<ApiStatus> = flow {
+    operator fun invoke(): Flow<ApiStatus<List<Film>>> = flow {
         emit(ApiStatus.Loading)
-        when (val response = moviesRepository.getPopularMovies(Constants.API_KEY)) {
-            is Resource.Error -> {
-                emit(ApiStatus.Error(response.message))
-            }
-
-            is Resource.Success -> {
-                response.data?.let {
-                    emit(ApiStatus.MovieListSuccess(it))
-                } ?: run {
-                    emit(ApiStatus.Error("Server error"))
-                }
-
-            }
-        }
+        emit(moviesRepository.getPopularMovies(Constants.API_KEY))
     }.flowOn(Dispatchers.IO)
 }

@@ -1,9 +1,7 @@
 package com.lbg.domain
 
 import app.cash.turbine.test
-import com.lbg.domain.model.ApiStatus
 import com.lbg.domain.model.FilmDetails
-import com.lbg.domain.model.Resource
 import com.lbg.domain.repository.IMoviesRepository
 import com.lbg.domain.usecases.GetMovieDetailUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
