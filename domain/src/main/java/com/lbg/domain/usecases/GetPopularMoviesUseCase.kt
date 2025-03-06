@@ -1,5 +1,6 @@
 package com.lbg.domain.usecases
 
+import com.lbg.domain.Constants
 import com.lbg.domain.model.ApiStatus
 import com.lbg.domain.model.Film
 import com.lbg.domain.repository.IMoviesRepository

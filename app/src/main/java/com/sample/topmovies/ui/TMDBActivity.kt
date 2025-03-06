@@ -24,7 +24,9 @@ class TMDBActivity : ComponentActivity() {
         }
         setContent {
             CinemaTheme {
-                AppNavigation()
+                AppNavigation(
+                    onErrorDismissRequest = { finish() }
+                )
             }
         }
     }

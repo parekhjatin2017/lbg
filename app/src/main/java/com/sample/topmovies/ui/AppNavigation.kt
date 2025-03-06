@@ -19,7 +19,8 @@ private object AppDestinations {
 
 @Composable
 fun AppNavigation(
-    startDestination: String = AppDestinations.MOVIE_LIST_ROUTE
+    startDestination: String = AppDestinations.MOVIE_LIST_ROUTE,
+    onErrorDismissRequest: () -> Unit
 ) {
     val navController = rememberNavController()
     val actions = remember(navController) { AppActions(navController) }
@@ -31,7 +32,10 @@ fun AppNavigation(
         composable(
             AppDestinations.MOVIE_LIST_ROUTE
         ) {
-            MovieList(selectedMovie = actions.selectedMovie)
+            MovieList(
+                selectedMovie = actions.selectedMovie,
+                onErrorDismissRequest = onErrorDismissRequest
+            )
         }
         composable(
             "${AppDestinations.MOVIE_DETAIL_ROUTE}/{${AppDestinations.MOVIE_DETAIL_ID_KEY}}",

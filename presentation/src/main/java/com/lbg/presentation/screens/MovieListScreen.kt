@@ -34,18 +34,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.lbg.domain.Constants
 import com.lbg.domain.model.ApiStatus
 import com.lbg.domain.model.Film
-import com.lbg.domain.usecases.Constants
 import com.lbg.presentation.R
 import com.lbg.presentation.viewmodel.MovieListViewModel
 
 @Composable
 fun MovieList(
     viewModel: MovieListViewModel = hiltViewModel(),
-    selectedMovie: (String) -> Unit
+    selectedMovie: (String) -> Unit,
+    onErrorDismissRequest: () -> Unit
 ) {
-
+    val context = LocalContext.current
     when (val state = viewModel.movieListStateFlow.collectAsState().value) {
         is ApiStatus.Success -> {
             Scaffold(topBar = {
@@ -64,9 +65,25 @@ fun MovieList(
             }
         }
 
-        is ApiStatus.Error -> {}
-        is ApiStatus.Loading -> {}
-        is ApiStatus.NetworkError -> {}
+        is ApiStatus.Ideal,
+        is ApiStatus.Loading -> {
+            LoadingDialog(context.getString(R.string.loading_movie_list))
+        }
+
+        is ApiStatus.Error -> {
+            val error = state.error ?: context.getString(R.string.api_error)
+            SimpleMessageDialog(
+                context.getString(R.string.movie_list_api_error, error),
+                onErrorDismissRequest
+            )
+        }
+
+        is ApiStatus.NetworkError -> {
+            SimpleMessageDialog(
+                context.getString(R.string.movie_list_network_error),
+                onErrorDismissRequest
+            )
+        }
     }
 
 }

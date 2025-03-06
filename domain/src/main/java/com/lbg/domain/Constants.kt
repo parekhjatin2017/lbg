@@ -1,4 +1,4 @@
-package com.lbg.domain.usecases
+package com.lbg.domain
 
 object Constants {
 

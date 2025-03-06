@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Cinema</string>
-</resources>
+
+    <string name="api_error">API error</string>
+
+    <string name="loading_movie_list">Loading movie list…</string>
+    <string name="movie_list_network_error">Error loading movie list (Network error) \n\n Click to close application</string>
+    <string name="movie_list_api_error">Error loading movie list: (%1$s) \n\n Click to close application</string>
+
+    <string name="loading_movie_detail">Loading movie detail…</string>
+    <string name="movie_detail_network_error">Error loading movie detail (Network error) \n\n Click to go back</string>
+    <string name="movie_detail_api_error">Error loading movie detail: (%1$s) \n\n Click to go back</string>
+  </resources>

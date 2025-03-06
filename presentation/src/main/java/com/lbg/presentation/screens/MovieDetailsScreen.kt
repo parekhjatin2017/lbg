@@ -23,13 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.lbg.domain.Constants
 import com.lbg.domain.model.ApiStatus
 import com.lbg.domain.model.FilmDetails
-import com.lbg.domain.usecases.Constants
+import com.lbg.presentation.R
 import com.lbg.presentation.viewmodel.MovieDetailViewModel
 
 @Composable
@@ -38,6 +40,7 @@ fun OpenDetailScreen(
     movieId: String,
     back: () -> Unit
 ) {
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewmodel.getMovieDetail(movieId)
     }
@@ -49,9 +52,22 @@ fun OpenDetailScreen(
             }
         }
 
-        is ApiStatus.Error -> {}
-        is ApiStatus.Loading -> {}
-        is ApiStatus.NetworkError -> {}
+        is ApiStatus.Ideal,
+        is ApiStatus.Loading -> {
+            LoadingDialog(context.getString(R.string.loading_movie_detail))
+        }
+
+        is ApiStatus.Error -> {
+            val error = state.error ?: context.getString(R.string.api_error)
+            SimpleMessageDialog(
+                context.getString(R.string.movie_detail_api_error, error),
+                back
+            )
+        }
+
+        is ApiStatus.NetworkError -> {
+            SimpleMessageDialog(context.getString(R.string.movie_detail_network_error), back)
+        }
     }
 
 }

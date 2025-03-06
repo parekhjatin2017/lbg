@@ -17,7 +17,7 @@ class MovieListViewModel
 constructor(private val getPopularMoviesUseCase: GetPopularMoviesUseCase) : ViewModel() {
 
     private val _movieListStateFlow: MutableStateFlow<ApiStatus<List<Film>>> =
-        MutableStateFlow(ApiStatus.Loading)
+        MutableStateFlow(ApiStatus.Ideal)
     val movieListStateFlow: StateFlow<ApiStatus<List<Film>>> = _movieListStateFlow
 
     init {
