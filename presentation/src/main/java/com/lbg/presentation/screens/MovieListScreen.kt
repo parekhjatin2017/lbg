@@ -65,7 +65,7 @@ fun MovieList(
             }
         }
 
-        is ApiStatus.Ideal,
+        is ApiStatus.Idle,
         is ApiStatus.Loading -> {
             LoadingDialog(context.getString(R.string.loading_movie_list))
         }

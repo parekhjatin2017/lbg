@@ -1,6 +1,7 @@
 package com.lbg.domain
 
 import app.cash.turbine.test
+import com.lbg.domain.model.ApiStatus
 import com.lbg.domain.model.FilmDetails
 import com.lbg.domain.repository.IMoviesRepository
 import com.lbg.domain.usecases.GetMovieDetailUseCase
@@ -17,32 +18,43 @@ class GetMovieDetailUseCaseTest {
     private val id = "5"
 
     @Test
-    fun testMovieDetails() {
+    fun testGetMovieDetailSuccessReceived() {
         runTest {
-            val detail = Mockito.mock(FilmDetails::class.java, Mockito.RETURNS_DEEP_STUBS)
-            Mockito.doReturn(Resource.Success(detail)).`when`(repository)
+            val detail = Mockito.mock(FilmDetails::class.java)
+            Mockito.doReturn(ApiStatus.Success(detail)).`when`(repository)
                 .getMovieDetail(anyString(), anyString())
 
             GetMovieDetailUseCase(repository)(id).test {
                 assert(ApiStatus.Loading == awaitItem())
-                assert(
-                    ApiStatus.MovieDetailSuccess(detail).javaClass
-                            == awaitItem().javaClass
-                )
+                assert(ApiStatus.Success(detail).javaClass == awaitItem().javaClass)
                 cancelAndIgnoreRemainingEvents()
             }
         }
     }
 
     @Test
-    fun negativeTestMovieDetails() {
+    fun negativeTestGetMovieDetailErrorReceived() {
         runTest {
-            Mockito.doReturn(Resource.Error<FilmDetails>("")).`when`(repository)
+            Mockito.doReturn(ApiStatus.Error(id)).`when`(repository)
                 .getMovieDetail(anyString(), anyString())
 
             GetMovieDetailUseCase(repository)(id).test {
                 assert(ApiStatus.Loading == awaitItem())
-                assert(ApiStatus.Error("").javaClass == awaitItem().javaClass)
+                assert(ApiStatus.Error(id) == awaitItem())
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+    }
+
+    @Test
+    fun negativeTestGetMovieDetailNetworkErrorReceived() {
+        runTest {
+            Mockito.doReturn(ApiStatus.NetworkError).`when`(repository)
+                .getMovieDetail(anyString(), anyString())
+
+            GetMovieDetailUseCase(repository)(id).test {
+                assert(ApiStatus.Loading == awaitItem())
+                assert(ApiStatus.NetworkError == awaitItem())
                 cancelAndIgnoreRemainingEvents()
             }
         }

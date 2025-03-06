@@ -52,7 +52,7 @@ fun OpenDetailScreen(
             }
         }
 
-        is ApiStatus.Ideal,
+        is ApiStatus.Idle,
         is ApiStatus.Loading -> {
             LoadingDialog(context.getString(R.string.loading_movie_detail))
         }

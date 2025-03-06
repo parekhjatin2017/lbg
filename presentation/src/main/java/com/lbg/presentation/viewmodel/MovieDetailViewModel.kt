@@ -17,7 +17,7 @@ class MovieDetailViewModel
 constructor(private val getMovieDetailUseCase: GetMovieDetailUseCase) : ViewModel() {
 
     private val _movieDetailStateFlow: MutableStateFlow<ApiStatus<FilmDetails>> =
-        MutableStateFlow(ApiStatus.Ideal)
+        MutableStateFlow(ApiStatus.Idle)
     val movieDetailStateFlow: StateFlow<ApiStatus<FilmDetails>> = _movieDetailStateFlow
 
     fun getMovieDetail(movieId: String) = viewModelScope.launch {
